@@ -1,0 +1,14 @@
+{% extends 'layouts/base.html' %}
+
+
+{% block title %}
+    Home
+{% endblock title %}
+
+
+{% block content %}
+    <h1>Hello, {{ current_user.name }}!</h1>
+    {% for post in current_user.posts %}
+        <div><p>{{ post.author.name }} says: <b>{{ post.body }}</b></p></div>
+    {% endfor %}
+{% endblock content %}
