@@ -1,0 +1,10 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}
+  Not found
+{% endblock title %}
+
+{% block content %}
+  <h1><pre>Error 404</pre></h1>
+  <p>We get tired of looking for the file you're looking for. Set us free and <a href="{{ url_for('index') }}">go home</a>!</p>
+{% endblock %}

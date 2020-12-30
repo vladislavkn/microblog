@@ -1,0 +1,10 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}
+  Internal server error
+{% endblock title %}
+
+{% block content %}
+  <h1><pre>Error 500</pre></h1>
+  <p>We ourselves do not understand what happened. <a href="{{ url_for('index') }}">Go home</a> and do not stop us from correcting the error.</p>
+{% endblock %}
