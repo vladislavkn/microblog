@@ -4,7 +4,7 @@ from flask_login import current_user, login_user, logout_user, login_required
 from app.models import User
 from werkzeug.urls import url_parse
 from datetime import datetime
-from .forms import LoginForm, RegistrationForm
+from .forms import LoginForm, RegistrationForm, EditProfileForm
 
 @app.before_request
 def before_request():
@@ -66,3 +66,18 @@ def user(name):
         {'author': user, 'body': 'Test post #2'}
     ]
     return render_template('pages/user.html', user=user, posts=posts)
+
+@app.route('/edit_profile', methods=['GET', 'POST'])
+@login_required
+def edit_profile():
+    form = EditProfileForm()
+    if form.validate_on_submit():
+        current_user.name = form.name.data
+        current_user.about_me = form.about_me.data
+        db.session.commit()
+        flash('Your changes have been saved.')
+        return redirect(url_for('user', name=current_user.name))
+    elif request.method == 'GET':
+        form.name.data = current_user.name
+        form.about_me.data = current_user.about_me
+    return render_template('pages/edit_profile.html', form=form)

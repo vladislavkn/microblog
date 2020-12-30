@@ -1,0 +1,27 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}
+  Edit: {{ current_user.name }}
+{% endblock title %}
+
+{% block content %}
+    <h1>Edit Profile</h1>
+    <form method="post">
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.name.label }}<br>
+            {{ form.name(size=32) }}<br>
+            {% for error in form.name.errors %}
+            <span style="color: red;"> - {{ error }}</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.about_me.label }}<br>
+            {{ form.about_me(cols=50, rows=4) }}<br>
+            {% for error in form.about_me.errors %}
+            <span style="color: red;"> - {{ error }}</span>
+            {% endfor %}
+        </p>
+        <p>{{ form.submit() }}</p>
+    </form>
+{% endblock %}
