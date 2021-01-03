@@ -8,6 +8,17 @@
 
 {% block content %}
     <h1>Hello, {{ current_user.name }}!</h1>
+    <form method="post">
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.body.label }}<br>
+            {{ form.body(cols=32, rows=4) }}<br>
+            {% for error in form.body.errors %}
+                <span style="color: red;"> - {{ error }}</span>
+            {% endfor %}
+        </p>
+        <p>{{ form.submit() }}</p>
+    </form>
     {% for post in current_user.posts %}
         <div><p>{{ post.author.name }} says: <b>{{ post.body }}</b></p></div>
     {% endfor %}
