@@ -15,7 +15,8 @@ def before_request():
 @app.route('/')
 @login_required
 def index():
-  return render_template('pages/index.html')
+  posts = current_user.related_posts().all()
+  return render_template('pages/index.html', posts=posts)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -53,7 +54,7 @@ def register():
     db.session.commit()
     login_user(user, remember=form.remember_me.data)
     flash('Congratulations, you are now a registered user!')
-    return redirect(url_for('login'))
+    return redirect(url_for('index'))
 
   return render_template('pages/register.html', form=form)
 
