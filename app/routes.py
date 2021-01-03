@@ -25,6 +25,11 @@ def index():
   posts = current_user.related_posts().all()
   return render_template('pages/index.html', posts=posts, form=form)
 
+@app.route('/explore')
+def explore():
+  posts = Post.query.order_by(Post.timestamp.desc()).all()
+  return render_template('pages/index.html', title='Explore', posts=posts)
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
   if current_user.is_authenticated:
