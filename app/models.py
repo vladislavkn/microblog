@@ -1,8 +1,10 @@
-from app import db,login
+from app import db, login, app
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 from hashlib import md5
+from time import time
+import jwt
 
 @login.user_loader
 def load_user(id):
@@ -61,6 +63,19 @@ class User(db.Model, UserMixin):
 
         return followed_posts.union(own_posts).order_by(Post.timestamp.desc())
 
+    def get_reset_password_token(self, expires_in=600):
+        return jwt.encode(
+            {'reset_password_for': self.id, 'exp': time() + expires_in},
+            app.config['SECRET_KEY'], algorithm='HS256'
+        )
+
+    @staticmethod
+    def verify_reset_password_token(token):
+        try:
+            id = jwt.decode(token, app.config['SECRET_KEY'], algorithms=['HS256'])['reset_password_for']
+        except:
+            return
+        return User.query.get(id)
 
     def __repr__(self):
         return f'<User {self.name}>'
@@ -73,3 +88,9 @@ class Post(db.Model):
 
     def __repr__(self):
         return f'<Post {self.author.name}: {self.body}>'
+
+# export MAIL_SERVER=smtp.googlemail.com
+# export MAIL_PORT=587
+# export MAIL_USE_TLS=1
+# export MAIL_USERNAME=vladislav.kns@gmail.com
+# export MAIL_PASSWORD=Yffuf_57g9sRg
