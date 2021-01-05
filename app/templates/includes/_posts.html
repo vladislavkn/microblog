@@ -1,0 +1,8 @@
+<div class='row'>
+  <div class='col-md-6 offset-md-3'>
+    {% for post in posts %}
+       {% include 'includes/_post.html' %}
+    {% endfor %}
+    {% include 'includes/_pagination.html' %}
+  </div>
+</div>

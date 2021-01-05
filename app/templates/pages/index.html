@@ -1,28 +1,18 @@
 {% extends 'layouts/base.html' %}
-
+{% import 'bootstrap/wtf.html' as bootstrap_form %}
 
 {% block title %}
     {{ 'Home' if not title else title }}
 {% endblock title %}
 
-
-{% block content %}
-    <h1>Hello, {{ current_user.name }}!</h1>
-    {% if form %}
-        <form method="post">
-            {{ form.hidden_tag() }}
-            <p>
-                {{ form.body.label }}<br>
-                {{ form.body(cols=32, rows=4) }}<br>
-                {% for error in form.body.errors %}
-                    <span style="color: red;"> - {{ error }}</span>
-                {% endfor %}
-            </p>
-            <p>{{ form.submit() }}</p>
-        </form>
-    {% endif %}
-    {% for post in posts %}
-       {% include 'includes/_post.html' %}
-    {% endfor %}
-    {% include 'includes/_pagination.html' %}
-{% endblock content %}
+{% block app_content %}
+    <div class='row pb-4'>
+        <div class='col-md-6 offset-md-3'>
+            <h1>Hello, {{ current_user.name }}!</h1>
+            {% if form %}
+                {{ bootstrap_form.quick_form(form) }}
+            {% endif %}
+        </div>
+    </div>
+    {% include 'includes/_posts.html' %}
+{% endblock %}
